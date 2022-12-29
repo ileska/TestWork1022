@@ -6,7 +6,7 @@ cp .env.example .env
 
 2. Start ***docker***:
 ```
-docker compose up
+docker-compose up
 ```
 
 3. Test credentials:
