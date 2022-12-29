@@ -8,3 +8,12 @@ cp .env.example .env
 ```
 docker compose up
 ```
+
+3. Test credentials:
+
+user with "author" role:
+
+```
+email: user@domain.example
+password: password
+```
