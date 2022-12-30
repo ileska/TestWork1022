@@ -20,7 +20,12 @@ class PostController extends Controller
     {
         $params = $request->all();
         $params['user_id'] = $request->user()->id; 
-        $post = $repository->createPost($params);
+        try {
+            $post = $repository->createPost($params);
+        } catch (Throwable $e) {
+            Response::json($e->getMessage(), 500);
+        }
+        
         return new PostResource($post);
     }
 }
