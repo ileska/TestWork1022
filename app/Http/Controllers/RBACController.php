@@ -28,7 +28,12 @@ class RBACController extends Controller
      */
     public function createRole(StoreRoleRequest $request)
     {
-        $role = $this->rbacService->createRoleFromRequest($request->all());
+        try {
+            $role = $this->rbacService->createRoleFromRequest($request->all());
+        } catch (Throwable $e) {
+            Response::json($e->getMessage(), 500);
+        }
+        
         return new RoleResource($role);
     }
 
@@ -40,7 +45,12 @@ class RBACController extends Controller
      */
     public function addPermissionToRole(AddPermissionToRoleRequest $request)
     {
-        $role = $this->rbacService->addPermissionToRole($request);
+        try {
+            $role = $this->rbacService->addPermissionToRole($request->all());
+        } catch (Throwable $e) {
+            Response::json($e->getMessage(), 500);
+        }
+        
         return new RoleResource($role);
     }
 }

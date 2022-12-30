@@ -4,8 +4,20 @@ namespace App\Services;
 
 use App\Models\Role;
 use App\Models\Permission;
+use App\Repositories\RoleRepository;
+use App\Repositories\PermissionRepository;
 
 Class RBACService {
+    private $roleRepository;
+    private $permissionRepository;
+
+    /**
+     * Constructor
+     */
+    public function __construct(RoleRepository $roleRepository, Permission $permissionRepository){
+        $this->roleRepository = $roleRepository;
+        $this->permissionRepository = $permissionRepository;
+    }
 
     /**
      * Store a new role.
@@ -15,7 +27,7 @@ Class RBACService {
      */
     public function createRoleFromRequest(array $params)
     {
-        return Role::create($params);
+        return $this->roleRepository->create($params);
     }
 
     /**
@@ -24,13 +36,7 @@ Class RBACService {
      * @param  App\Http\Requests\AddPermissionToRoleRequest  $request
      * @return App\Models\Role
      */
-    public function addPermissionToRole() {
-        $role = Role::find($request->role_id);
-        $permission = Permission::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name, '-'),
-        ]);
-        $role->permissions()->attach($permission->id);
-        return $role;
+    public function addPermissionToRole(AddPermissionToRoleRequest  $request) {
+        return $this->permissionRepository->addPermissionToRole();
     }
 }
